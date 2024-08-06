@@ -1,0 +1,42 @@
+name: Python with cache
+author: Draftea
+description: Simple actions to create python and poetry environments action 
+
+inputs:
+  python-version: 
+    description: Desired Python version
+    default: '3.12.x'
+  poetry-version:
+    description: 'Poetry version'
+    default: '1.8.3'
+
+outputs:
+  cache-key:
+    description: Cache key holding module cache paths.
+    value: ${{ steps.poetry-cache.outputs.cache-key }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@main
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Setup Poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: ${{ inputs.poetry-version }}
+
+    - name: Determine cache keys
+      id: poetry-cache
+      run: |
+        echo "cache-path=~/.cache/pypoetry" >> $GITHUB_ENV
+        echo "cache-key=${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-${{ hasfiles('**/poetry.lock') }}" >> $GITHUB_ENV
+    
+    - name: Setup cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.poetry-cache.outputs.cache-path }}
+        key: ${{ steps.poetry-cache.outputs.cache-key }}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+        
