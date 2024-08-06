@@ -30,9 +30,10 @@ runs:
 
     - name: Determine cache keys
       id: poetry-cache
+      shell: bash
       run: |
-        echo "cache-path=~/.cache/pypoetry" >> $GITHUB_ENV
-        echo "cache-key=${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-${{ hasfiles('**/poetry.lock') }}" >> $GITHUB_ENV
+        echo "cache-path=~/.cache/pypoetry" >>"$GITHUB_OUTPUT"
+        echo "cache-key=${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}" >> "$GITHUB_OUTPUT"
     
     - name: Setup cache
       uses: actions/cache@v4
