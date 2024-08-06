@@ -33,7 +33,7 @@ runs:
       shell: bash
       run: |
         echo "cache-path=~/.cache/pypoetry" >>"$GITHUB_OUTPUT"
-        echo "cache-key=${{ runner.os }}-python-${{ steps.setup-python.outputs.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}" >> "$GITHUB_OUTPUT"
+        echo "cache-key=${{ runner.os }}-python-${{ inputs.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}" >> "$GITHUB_OUTPUT"
     
     - name: Setup cache
       uses: actions/cache@v4
